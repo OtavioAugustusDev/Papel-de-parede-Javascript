@@ -1,0 +1,207 @@
+<html>
+<head>
+<title>Poema</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+<style>
+
+body {
+text-align:center; 
+margin:auto;  
+font-size:15px; 
+font-family: 'Open Sans', sans-serif; color: white;}
+
+canvas{
+    z-index: -1;
+    position: absolute;
+    display: inline-block;
+    left: 0px;
+    right: 0px; 
+    top: 0px; 
+    bottom: 0px;}
+
+#text{ padding: 10px; -webkit-touch-callout: none;
+-webkit-user-select: none;
+-khtml-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;}
+
+  #text p {
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    margin-bottom: 0.5em;
+    line-height: 0.5;
+  }
+  #text p.fade.show {
+    opacity: 1;
+  }
+
+</style>
+</head>
+<body>
+<canvas id="canvas">
+</canvas>
+<div id="text">
+  <p class="fade">O mundo lá fora é tão sem graça,<br></p>
+  <p class="fade">Tão difícil de se entender,<br></p>
+  <p class="fade">Parece que foi por isso<br></p>
+  <p class="fade">Que inventaram você!<br></p>
+<br>
+<p class="fade">Tu já não me és diferente,<br></p>
+<p class="fade">Sinto que é uma pessoa comum,<br></p>
+<p class="fade">Um universo imenso de dados,<br></p>
+<p class="fade">Feito apenas de zeros e uns.<br></p>
+<br>
+<p class="fade">Em meio a tantos bits, tantos bytes de informações,<br></p>
+<p class="fade">Às vezes eu me pergunto, Se estou perdendo a essência da vida,<br></p>
+<p class="fade">Me afogando em seus padrões.<br></p>
+<br>
+<p class="fade">Minha vida parece um emaranhado de números<br></p>
+<p class="fade">linhas sem sentido executando um código que não escrevi,<br></p>
+<p class="fade">Um código com erros.<br></p>
+<br>
+<p class="fade">Talvez preciso declarar uma variável de felicidade<br></p>
+<p class="fade">E incrementar com novas experiências e amizades<br></p>
+<p class="fade">Ou quem sabe criar uma função para me alegrar<br></p>
+<p class="fade">E chamar quando estiver me sentindo mal<br></p>
+<p class="fade">Criar loops de diversão, condicionais de prazer<br></p>
+<br>
+<p class="fade">Eu não sei o que fazer,<br></p>
+<p class="fade">Parece que o futuro não depende mais de mim, depende mais de você<br>
+</p>
+<br>
+<p class="fade">Mas então você me diz,<br></p>
+<p class="fade">Que não preciso me preocupar com os erros, eles vão acontecer,<br></p>
+<p class="fade">Pois é assim que se aprende, e se cresce consequentemente<br></p>
+<p class="fade">O computador é apenas uma máquina, programada para mostrar<br></p>
+<p class="fade">que a vida é um programa, basta saber como programar<br>
+</p>
+<br>
+<p class="fade">E então as linhas de código se tornam claras,<br></p>
+<p class="fade">E os bugs são finalmente resolvidos,<br></p>
+<p class="fade">Eu sinto uma satisfação inigualável,<br></p>
+<p class="fade">Como se eu tivesse vencido.</p></div>
+
+<script>
+
+var x = [], y = [];
+var characters = ["1","2","3","4","5","6","7","8","9","0", "A", "B", "C"];
+document.body.style.backgroundColor = "#000000";
+var linesCount = 100;
+var lineColor = "#00c8ff";
+var canvas = document.getElementById("canvas");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+document.body.appendChild(canvas);
+
+function draw() {
+    document.body.style.cursor = "none";
+    var ctx = canvas.getContext("2d");
+    ctx.fillStyle = "rgba(0, 0, 0, 0.08)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+onmousemove = function(e){ctx.strokeStyle = "red";
+ctx.lineWidth = 3;
+
+ctx.beginPath();
+ctx.moveTo(e.clientX, e.clientY + 10);
+ctx.lineTo(e.clientX + 10, e.clientY);
+ctx.stroke();
+
+
+ctx.beginPath();
+ctx.moveTo(e.clientX, e.clientY);
+ctx.lineTo(e.clientX  + 10, e.clientY  + 10);
+ctx.stroke();}
+onmouseup = function(e){ctx.strokeStyle = "white"; ctx.lineWidth = 3;
+
+ctx.beginPath();
+ctx.moveTo(e.clientX, e.clientY + 10);
+ctx.lineTo(e.clientX + 10, e.clientY);
+ctx.stroke();
+
+
+ctx.beginPath();
+ctx.moveTo(e.clientX, e.clientY);
+ctx.lineTo(e.clientX  + 10, e.clientY  + 10);
+ctx.stroke();}
+
+for (var i = 0; i < x.length; i+=linesCount) {
+        ctx.textBaseline = "middle";
+        ctx.textAlign = "center";
+
+        ctx.fillStyle = lineColor;
+        ctx.font = 2 + "0px monospace";
+        ctx.fillText(characters[Math.floor(Math.random()*characters.length)], x[i], y[i]);
+        y[i] += 10;
+
+        ctx.strokeStyle = "#ff0000";
+        ctx.beginPath();
+        ctx.stroke();
+    }
+    x.push((Math.random() * canvas.width));
+    y.push((Math.random() * 5));
+};
+
+setInterval(function() {
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext("2d");
+ctx.fillStyle = "#000000";
+ctx.fillRect(0, 0, canvas.width, canvas.height);
+}, 3000);
+
+setInterval(draw, 15);
+
+  var paragraphs = document.querySelectorAll('#text p');
+  var index = 0;
+  var intervalId = setInterval(function() {
+    paragraphs[index].classList.add('show');
+    
+index++;
+console.log(index);
+switch (index)
+{
+case 1:
+linesCount = 500;
+break;
+case 7:
+linesCount = 1;
+break;
+case 8:
+characters = ["0", "1"];
+break;
+case 13:
+linesCount = 50;
+break;
+case 14:
+linesCount = 1;
+characters = ["ERROR", "XXXXX"];
+lineColor = "red";
+break;
+case 15:
+linesCount = 50;
+lineColor = "#00c8ff";
+characters = ["FELICIDADE?","AMOR?","HARMONIA?","SEGURANÇA?","SEGURANÇA?"];
+break;
+case 19:
+linesCount = 500;
+lineColor = "#00c8ff";
+characters = ["1","2","3","4","5","6","7","8","9","0", "A", "B", "C"];
+break;
+case 27:
+linesCount = 1;
+lineColor = "#00c8ff";
+characters = ["1","2","3","4","5","6","7","8","9","0", "A", "B", "C"];
+break;
+}
+
+    if (index >= paragraphs.length) {
+      clearInterval(intervalId);
+    }
+  }, 3000);
+
+</script>
+</body>
+</html>

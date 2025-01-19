@@ -1,0 +1,210 @@
+<html>
+<head>
+<title>Poema</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+<style>
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  font-size: 15px;
+  font-family: 'Open Sans', sans-serif;
+  color: white;
+}
+
+canvas {
+  z-index: -1;
+  position: absolute;
+  display: inline-block;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  bottom: 0px;
+}
+
+#text {
+  padding: 10px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+#botao {
+  padding: 20px;
+  font-family: 'Open Sans', 'sans-serif';
+  color: white;
+  background: none;
+  border: 2px solid white;
+  font-size: 20px;
+transition: background-color 0.3s ease-in-out;
+}
+
+#botoes {
+  display: flex;
+}
+
+#botao:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+#texto {
+  opacity: 0;
+  transition: opacity 1s ease;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+font-family: 'monospace';
+font-size: 20px;
+}
+
+#texto2 {
+  opacity: 0;
+  transition: opacity 1s ease;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+font-family: monospace;
+font-size: 20px;
+}
+
+</style>
+</head>
+<body>
+<canvas id="canvas">
+</canvas>
+<div id="texto" style="color: red;">ACESSO NEGADO</div>
+<div id="texto2" style="color: green;">REDIRECIONANDO...</div>
+<div id="botoes">
+<div id="text"><button id="botao" onclick="start(true)"><b>Ler</b></button></div>
+<div id="text"><button id="botao" onclick="start(false)"><b>Escrever</b></button></div>
+</div>
+
+<script>
+
+function start(v) {
+document.getElementById("botoes").style.visibility = "hidden";
+if (!v) {
+  var mensagem = document.getElementById("texto");
+  mensagem.style.opacity = 0;
+  mensagem.style.display = "block";
+  var intervalo = setInterval(function() {
+    mensagem.style.opacity = Number(mensagem.style.opacity) + 0.1;
+    if (mensagem.style.opacity >= 1) {
+      clearInterval(intervalo);
+      setTimeout(function() {
+        mensagem.style.opacity = 1;
+        var intervalo2 = setInterval(function() {
+          mensagem.style.opacity = Number(mensagem.style.opacity) - 0.1;
+setTimeout(function() {document.getElementById("botoes").style.visibility = "visible";}, 1000)
+        }, 50);
+      }, 10);
+    }
+  }, 50);
+} else
+{           
+  var mensagem = document.getElementById("texto2");
+  mensagem.style.opacity = 0;
+  mensagem.style.display = "block";
+  var intervalo = setInterval(function() {
+    mensagem.style.opacity = Number(mensagem.style.opacity) + 0.1;
+    if (mensagem.style.opacity >= 1) {
+      clearInterval(intervalo);
+      setTimeout(function() {
+        mensagem.style.opacity = 1;
+        var intervalo2 = setInterval(function() {
+          mensagem.style.opacity = Number(mensagem.style.opacity) - 0.1;
+ if (mensagem.style.opacity <= 0) {
+            clearInterval(intervalo2);
+            mensagem.style.display = "none";
+            setTimeout(function() {
+              window.location.href = "poema-artes.html";
+            }, 1000);
+      	}
+        }, 50);
+      }, 1000);
+    }
+  }, 50);
+}
+}
+
+var x = [], y = [];
+var characters = ["1","2","3","4","5","6","7","8","9","0", "A", "B", "C"];
+document.body.style.backgroundColor = "#000000";
+
+var canvas = document.getElementById("canvas");
+document.body.appendChild(canvas);
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+function draw() {
+    document.body.style.cursor = "none";
+    var ctx = canvas.getContext("2d");
+    ctx.fillStyle = "rgba(0, 0, 0, 0.08)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+onmousemove = function(e){ctx.strokeStyle = "red";
+ctx.lineWidth = 3;
+
+ctx.beginPath();
+ctx.moveTo(e.clientX, e.clientY + 10);
+ctx.lineTo(e.clientX + 10, e.clientY);
+ctx.stroke();
+
+
+ctx.beginPath();
+ctx.moveTo(e.clientX, e.clientY);
+ctx.lineTo(e.clientX  + 10, e.clientY  + 10);
+ctx.stroke();}
+onmouseup = function(e){ctx.strokeStyle = "white"; ctx.lineWidth = 3;
+
+ctx.beginPath();
+ctx.moveTo(e.clientX, e.clientY + 10);
+ctx.lineTo(e.clientX + 10, e.clientY);
+ctx.stroke();
+
+
+ctx.beginPath();
+ctx.moveTo(e.clientX, e.clientY);
+ctx.lineTo(e.clientX  + 10, e.clientY  + 10);
+ctx.stroke();}
+
+for (var i = 0; i < x.length; i+=1) {
+        ctx.textBaseline = "middle";
+        ctx.textAlign = "center";
+
+        ctx.fillStyle = "#00c8ff";
+        ctx.font = 2 + "0px monospace";
+        ctx.fillText(characters[Math.floor(Math.random()*characters.length)], x[i], y[i]);
+        y[i] += 10;
+
+        ctx.strokeStyle = "#ff0000";
+        ctx.beginPath();
+        ctx.stroke();
+    }
+    x.push((Math.random() * canvas.width));
+    y.push((Math.random() * 5));
+};
+
+setInterval(function() {
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext("2d");
+ctx.fillStyle = "#000000";
+ctx.fillRect(0, 0, canvas.width, canvas.height);
+}, 3000);
+
+setInterval(draw, 15);
+
+</script>
+</body>
+</html>
